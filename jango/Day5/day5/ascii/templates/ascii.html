@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body><H1>원하는 텍스트 폰트를 입력학세요</H1>
+    <form action="/ascii/result">
+        <input type="text" name= "text">
+        <select name="font">
+            {% for font in fonts%}
+            <option value="{{font}}">{{font}}</option>
+            {%endfor%}
+        </select>
+      <input type="submit" value="아스키 아트 만들기">
+    </form>
+</body>
+</html>
