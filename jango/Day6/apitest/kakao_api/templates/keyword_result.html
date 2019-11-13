@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {%for site in result %}
+    <p>상호명:{{site.place_name}}</p>
+    <p>주소:{{site.address_name}}(도로명주소:{{site.road_address_name}})</p>
+    <br/>
+    <a href="{{site.place_url}}" target="_blank">상세정보 보기</a>
+    <br/>
+    <br/>
+
+    {% endfor %}
+</body>
+</html>
