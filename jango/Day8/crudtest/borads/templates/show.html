@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<h2>제목 :{{board.title}}</h2>
+
+<h3>{{board.contents}}</h3>
+
+<p>{{board.creator}}</p>
+<div class="mt-3 text-center">
+    <a href="/boards/{{board.id}}/edit" class="btn btn-danger">수정</a>
+    <a href="/boards/{{board.id}}/delete" class="btn btn-warning text white">삭제</a>
+</div>
+{% endblock %} 
