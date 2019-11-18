@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <form action="{% url 'articles:create' %}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input name="title" type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label for="contents">Contents</label>
+            <textarea name="contents" rows="5" class="form-control" id="contents"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="creator">Creator</label>
+            <input name="creator" type="text" class="form-control" id="creator" placeholder="작성자를 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">작성하기</button>
+    </form>
+</div>
+{% endblock %}
