@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <form action="{% url 'boards:edit' board.id%}" method="POST">
+        <input type="text" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input value="{{board.title}}" name="title" type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label for="contents">Contents</label>
+            <textarea name="contents" rows="5" class="form-control" id="contents">{{board.contents}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="creator">Creator</label>
+            <input value="{{board.creator}}" readonly="true" name="creator" type="text" class="form-control" id="creator" placeholder="작성자를 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">수정하기</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>{{board.title}}</h1>
+    <hr/>
+    <p>{{board.contents}}</p>
+    <p class="text-right">{{board.created_by}}</p>
+    <div>
+        <a href="{% url 'boards:edit' board.id%}" class="btn btn-primary">수정하기</a>
+        
+        <a href="{% url 'boards:delete' board.id%}" class="btn btn-danger">삭제하기</a>
+
+    </div>
+</div>
+{% endblock %}
