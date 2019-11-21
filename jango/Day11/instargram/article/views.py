@@ -1,12 +1,18 @@
 from django.shortcuts import render,redirect
-from .models import Article ,Comment
+from .models import Article ,Comment, AticlesImages
 
 # Create your views here.
 def index(request):
     if request.method=="POST":
         article = Article()
         article.contents = request.POST["contents"]
+        #원본이미지를 받을떄
+        #article.image = request.FILES["image"]
+        #원본 이미지를 프로세싱 한 이미지를 저장 
+        #article.image_resized = request.FILES["image"]
         article.save()
+        for image in request.FILES.getlist("image"):
+            AticlesImages.objects.create(article_id=article.id, image=image)
         return redirect('articles')
     else:
         articles = Article.objects.all().order_by("created_at").reverse()
