@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bg-red {
+            background-color: red;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1 id="title">오늘은 자바스크립트 수업 입니다 </h1>
+    <h2 id="joke">GOOD MORNING</h2>
+
+    <div>요소1</div>
+    <div>요소2</div>
+    <div>요소3</div>
+    <div>요소4</div>
+    <div>요소5</div>
+    <form class="mb-5 mt-5">
+        글쓰기
+        <input type="text" class="form-control" id="articleForem">
+        <button type="button" class="btn btn-danger mb">글쓰기</button>
+        <div class="pb-5"></div>
+        댓글쓰기
+        <input type="text" class="form-control" id="commentForm">
+        <button type="button" class="btn btn-danger" id="submitComment">댓글쓰기</button>
+    </form>
+    <div class="commentList">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="float-right">
+                첫번째 댓글 입니다. <button type="button" class="btn btn-danger">입력</button>
+                </span>
+            </li>
+            <li class="list-group-item">
+                <span class="float-right">
+                두번째 댓글 입니다. <button type="button" class="btn btn-danger">입력</button>
+                </span>
+            </li>
+            <li class="list-group-item">
+                    <span class="float-right">
+                세번째 댓글 입니다. <button type="button" class="btn btn-danger">입력</button>
+            </span>
+            </li>
+            <li class="list-group-item">
+                <span class="float-right">
+                네번째 댓글 입니다. <button type="button" class="btn btn-danger">입력</button>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- script는 맨 마지막에  -->
+    <script>
+        console.dir($);
+        var btn = document.getElementById('submitComment');
+        btn.addEventListener('click', function () {
+            // commentform 에 있는 내용을 받아서 
+            var commentForem = document.getElementById('commentForm');
+            if(commentForem.value==''){
+                alert('빈칸을 입력 할 수 없습니다 .');
+                return;
+            }
+            //console.dir(commentForem);
+            //alert 혹은 console 에 출력 
+            console.log(commentForem.value);
+
+            //댓글을 추가할 위치를 찾아서 
+            var position = document.querySelector('.list-group');
+            //console.dir(position);
+            //추가할 HTML 태그 모양을 잡고 
+            var appendingTag = document.createElement('li');
+            var appendingSpan = document.createElement('span');
+
+            appendingTag.classList.add('list-group-item')
+            appendingSpan.classList.add('float-right');
+            appendingTag.innerText = commentForem.value;
+            appendingSpan.innerHTML='<button type="button" class="btn btn-danger">입력</button>';
+            appendingTag.appendChild(appendingSpan);
+        
+            commentForem.value='';
+            console.dir(appendingTag);
+
+            // `<li class="list-group-item">
+            // 첫번째 댓글 입니다. <button type="button" class="btn btn-danger">입력</button>
+            // </li>`
+            //해당 위치에 추가 
+            position.prepend(appendingTag);
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+        // var pList = document.getElementsByTagName('p');
+        // var pList2 = document.querySelectorAll('div');
+        // console.log(pList2);
+
+        // pList2.forEach(function (element) {
+        //     element.addEventListener('click', function () {
+        //         if (confirm("이태그 내용을 출력 하시겠오?")) {
+        //             //alert(element.innerHTML);
+        //             element.classList.toggle('alert');
+        //             element.classList.toggle('alert-primary');
+        //         }
+        //         //console.dir(element);
+        //         // if(confirm("이태그를 삭제하겠습니까?")){
+        //         // //  element.setAttribute('class','bg-red')
+        //         // //element.classList.toggle('bg-red')
+        //         // }
+        //         // element.setAttribute('class', 'p-tag');
+        //     })
+        // })
+        // var joke = document.getElementById('joke');
+        // // joke.onclick = function(){
+        // //     alert("goodmorning");
+        // // }
+        // joke.addEventListener('click', function(){
+
+        // })    
+        //     var pList = document.getElementsByTagName('p');
+        //     for(var i=0;i<pList.length;i++){
+        //     pList[i].addEventListener('click',function(){
+        //         alert("안ㄴ됨비낟.");
+        //     }) 
+        // }
+    </script>
+
+</body>
+
+</html>

@@ -2,6 +2,24 @@ from django.shortcuts import render,redirect
 from .models import Article ,Comment, AticlesImages
 
 # Create your views here.
+
+
+def js_test(request):
+    return render(request, 'js_test.html')
+
+
+
+def jq_test(request):
+
+    return render(request,'jq_test.html')
+
+
+
+
+
+
+
+
 def index(request):
     if request.method=="POST":
         article = Article()

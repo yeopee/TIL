@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+        <form class="mb-5 mt-5">
+               <div class="pb-5"></div>
+                댓글쓰기
+                <input type="text" class="form-control" id="commentForm">
+                <button type="button" class="btn btn-danger" id="submitComment">댓글쓰기</button>
+            </form>
+            <div class="commentList">
+                <ul class="list-group">
+                    <li class="list-group-item" id="comment-1">
+                        
+                        첫번째 댓글 입니다. <span class="float-right"><button type="button" class="btn btn-danger">입력</button></span>
+                                             <span class="float-right"><button type="button" class="btn btn-danger delete-comment" value="1">삭제</button></span>
+                    </li>
+                    <li class="list-group-item" id="comment-2">
+                        두번째 댓글 입니다. <span class="float-right"><button type="button" class="btn btn-danger">입력</button></span>
+                        <span class="float-right"><button type="button" class="btn btn-danger delete-comment" value="2">삭제</button></span>
+                    </li>
+                
+                </ul>
+            </div>
+
+    
+            <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+        <script>
+        $(function(){
+            //댓글 달기 
+            //댓글 쓰기 버튼을 눌렸을 때 ,
+            $('#submitComment').on('click',function(){
+                var position  = $('ul.list-group');
+                 //li.list-group-item 요소를 만들어서 
+                var input = $('#commentForm').val(); 
+                if(input == ''){
+                    alert("댓글을 입력해 주세요 ");
+                    return;
+                }
+                $('#commentForm').val('');
+                var element = 
+                `<li class="list-group-item" id="comment-1">
+                   ${input} <span class="float-right"><button type="button" class="btn btn-danger">입력</button></span>
+                                             <span class="float-right"><button type="button" class="btn btn-danger delete-comment" value="1">삭제</button></span>
+                </li>`
+                position.prepend(element);
+            })
+
+
+
+
+           
+
+            //ul.list-group 붙여줌
+            
+    
+            //이벤트 발생할 요소르 찾고 
+            $(document).on('click','.delete-comment',function(){
+                
+                //이벤트가 발생 했을 경우 실행할 이벤트 
+                console.dir($(this));
+                var commentId = $(this).attr('value'); //이렇게 해야 jquery 쓸수 있다 .
+                //1 commentid 로 삭제할 요소를 찾아서 지워줌 
+               // $('#comment-'+commentId).hide();
+                //2.이벤트가 발생한 친구로부터 부모르 찾아 지워 
+                console.dir($(this).parents('.list-group-item').remove());
+                //parents 자주씀  
+
+                console.log(commentId);
+                //현재 버튼을 누른 댓글이 삭제 되어야함 
+
+            })
+
+        })
+
+
+
+
+        //$(function(){
+
+        //})
+        
+        </script>    
+
+    </body>
+</html>

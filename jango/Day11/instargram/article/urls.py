@@ -2,6 +2,8 @@ from django.urls import path
 from . import views as article_views
 urlpatterns = [
     path('', article_views.index, name="articles"),
+    path('js-test/',article_views.js_test),
+    path('jq-test/',article_views.jq_test),
     path('articles/<int:article_id>/edit/',article_views.edit,name="edit"),
     path('articles/<int:article_id>/delete/',article_views.delete,name="delete" ),
     path('comments/', article_views.comments,name="comments"),
