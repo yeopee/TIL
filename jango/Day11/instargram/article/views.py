@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
-from .models import Article ,Comment, AticlesImages
-
+from django.http.response import HttpResponse
+from .models import Article ,Comment, AticlesImages, Board
+import json
 # Create your views here.
 
 
@@ -10,15 +11,43 @@ def js_test(request):
 
 
 def jq_test(request):
-
-    return render(request,'jq_test.html')
-
-
-
-
-
+    boards = Board.objects.all().order_by("created_at").reverse()
+    context = {
+        'boards':boards
+    }
+    return render(request,'jq_test.html',context)
 
 
+def submit_boards(request):
+    if request.method == "POST":
+        contents = request.POST["board"]
+        boards = Board.objects.create(contents=contents)
+        context = {
+            'boards':boards
+        }
+        return render(request, 'empty.html',context)
+
+def delete_boards(request):
+    if request.method =='POST':
+        id = request.POST["board_id"]
+        board = Board.objects.get(id=id)
+        board.delete()
+        context = {
+            'board_id' : id
+        }
+        
+        return HttpResponse(json.dumps(context),content_type="application/json") 
+
+def edit_boards(request):
+    if request.method =='POST':
+        id = request.POST["board_id"]
+        contents = request.POST["contents"]
+        board = Board.objects.get(id=id)
+        board.contents = contents
+        board.save()
+
+        return HttpResponse('',status=204)
+        
 
 def index(request):
     if request.method=="POST":
@@ -59,21 +88,41 @@ def delete(request, article_id):
 
 
 
+
+
+
 def comments(request):
     if request.method =='POST':
         contents = request.POST["contents"]
         article_id = request.POST["article_id"]
-        comment = Comment()
+
+        if request.POST["form_Method"]=="create":
+            comment = Comment()
+        elif request.POST["form_Method"]=="edit":
+            comment_id = request.POST["comment_id"]
+            comment = Comment.objects.get(id=comment_id)
         comment.contents=contents
         comment.article_id = article_id
         comment.save()
-        return redirect('articles')
+        context={
+            'Method': request.POST["form_Method"],
+            'comment': comment.contents,
+            'comment_id':comment.id,
+            'article_id': comment.article_id,
+        }
+    return render(request,'comment.html',context)
 
 
-def delete_comment(request, comment_id):
-    comment = Comment.objects.get(id=comment_id)
-    comment.delete()
-    return redirect('articles')
+
+def delete_comment(request):
+    if request.method == 'POST':
+        id = request.POST["comment_id"]
+        comment = Comment.objects.get(id=id)
+        comment.delete()
+        context = {
+            'comment_id' : id
+        }
+        return HttpResponse(json.dumps(context),content_type="application/json")
 
 def edit_comment(request, comment_id):
     comment = Comment.objects.get(id=comment_id)
