@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container mt-5">
+    <h1>CHAT CHAT CHAT 서버버버버</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <table class="table table-hover table-dark text-center">
+            <thead>
+                <tr>
+                    <th scope="col" width="5%">#</th>
+                    <th scope="col" width="50%">채팅방</th>
+                    <th scope="col" width="25%">방장</th>
+                    <th scope="col" width="20%">참여인원</th>
+                </tr>
+            </thead>
+            <tbody class="room-list">
+                {% for room in rooms%}
+                <tr onclick="location.href='/boards/{{room.id}}';">
+                    <th scope="row">{{room.id}}</th>
+                    <td>{{room.title}}</td>
+                    <td>{{room.master}}</td>
+                    <td><span id="room-{{room.id}}-count">{{room.users.all.count}}</span>/{{room.max_connection}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    {%if user.is_authenticated %}
+    <div class="row">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            새 채팅방 만들기
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">채팅방 만들기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="create-room-form">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">채팅방 제목</span>
+                        </div>
+                        <input name="room-title" type="text" class="form-control" id="basic-url"
+                            aria-describedby="basic-addon3">
+                    </div>
+                    <div class="input-group">
+                        <input name="room-max-count" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button id="create-room" type="button" class="btn btn-primary" data-dismiss="modal">채팅방 생성</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- 자바스크립트 -->
+{% block script %}
+<script>
+    $(function () {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = false;
+
+        var pusher = new Pusher('96c64311e075281861fb', {
+            cluster: 'ap3',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('main');
+        channel.bind('create-room', function (data) {
+            console.log(JSON.stringify(data));
+            var room = `<tr onclick="location.href='/boards/${data.id}'">
+                    <tr>
+                    <th scope="row">${data.id}</th>
+                    <td>${data.title}</td>
+                    <td>{${data.master}</td>
+                    <td><span id="room-${data.id}-count">${data.current_connection}</span>${data.current_connection}/${data.max_connection}</td>
+                    
+                </tr>`
+            $('.room-list').append(room);
+
+        channel.bind('update-room',function(data){
+            $(`#room-${data.room_id}-count`).text(data.current_connection);
+        })
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $('#create-room').on('click', function () {
+            console.log("채팅방 생성")
+            // room에 대한 정보를 변수에 저장해서
+            var room_data = $('#create-room-form').serialize();
+            // 서버로 room 생성을 요청함
+            console.log(room_data);
+            $.ajax({
+                url: '{% url "boards:index" %}',
+                method: 'POST',
+                data: room_data,
+                success: function (data) {
+                    console.log("생성")
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            })
+            // 정상 응답인지만 체크
+
+        })
+    })
+</script>
+{% endblock %}
