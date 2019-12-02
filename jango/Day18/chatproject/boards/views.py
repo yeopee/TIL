@@ -8,7 +8,7 @@ import pusher
 pusher_client = pusher.Pusher(
   app_id='908834',
   key='96c64311e075281861fb',
-  secret='0dcf80bfb24802056b62',
+  secret='#',
   cluster='ap3',
   ssl=True
 )
@@ -52,7 +52,7 @@ def show(request, room_id):
         room.users.add(request.user)
         join_message={
             'user':request.user.username,
-            'contents':f'{request.user.username}님이 방에 들어왔습니다.'
+            'contents':f'{request.user.username}?�이 방에 ?�어?�습?�다.'
         }
         pusher_client.trigger(room.code,'chat', json.dumps(join_message))
 
@@ -94,7 +94,7 @@ def exit(request, room_id):
     room.users.remove(request.user)
     exit_message={
             'user':request.user.username,
-            'contents':f'{request.user.username}님이 방에 나갔습니다.'
+            'contents':f'{request.user.username}?�이 방에 ?�갔?�니??'
         }
     pusher_client.trigger(room.code,'chat', json.dumps(exit_message))
         
