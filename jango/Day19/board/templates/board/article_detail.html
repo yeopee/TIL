@@ -1,0 +1,47 @@
+ {% extends 'base.html' %} 
+ {% load bootstrap4 %}
+{% block content %}
+<h1>{{article.title}}</h1>
+<h2>{{ article.author }}</h2>
+
+{% if article.author == user %}
+<a href=" {% url 'board:edit_article' article.id %}">수정</a>|
+<a href="">삭제</a>
+{% endif %}
+<small>
+{{article.created_at}} | {{article.updated_at}}
+</small>
+
+<form action="{% url 'board:toggle_like' article.id %}" method='POST'>
+        {% csrf_token %}
+    <button class="btn btn-danger">like</button>
+</form>
+<p>{{article.content}}</p>
+<p>
+{{article.keyword}}|{{article.email}}
+</p>
+
+{% if user.is_authenticated %}
+    <form action="{% url 'board:new_comment' article.id %}" method='POST'>
+        {% csrf_token %}
+        {% bootstrap_form comment_form %}
+        <button class="btn btn-primary">댓굴작성</button>
+    </form>
+    
+{% else %}
+로그인하세여
+{% endif %}
+
+
+{% for comment in comments %}
+    <div>
+        {{comment.content}} - {{comment.author}}
+    </div>
+{% empty %}
+댓글이 없어요
+{% endfor %}
+
+ 
+
+{% endblock  %}
+
