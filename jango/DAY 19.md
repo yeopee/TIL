@@ -26,6 +26,10 @@ f1 = > Select Interpreter
 touch .gitignore # (venv/ +)
 pip install django
 pip freeze > requirement.txt
+
+mac os 에서 가상 환경 활성화 
+
+source venv/bin.activate
 ```
 
 pip freeze : 버젼을 얼린다 . 
@@ -33,3 +37,8 @@ pip freeze : 버젼을 얼린다 .
 !+tab : html:5을 자동 완성 한다. 
 
 block +tab +esc 는 block을 자동 생성 한다 .
+
+DIRS : 이친구를 먼저 base.html 찾는다 # default installed app 안에  temlpeates 을 찾는 다 
+
+$ python manage.py shell_plus --print-sql : power shell 로 orm 이 어떻게 구동 되는지 볼수 있다 .
+
