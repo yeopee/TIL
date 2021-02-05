@@ -24,4 +24,5 @@ INNER JOIN 과 OUTER JOIN 의 차이점
   - RIGHT : B의 모든 열과 A에 있는 공통 부분을 얻게 되고 B에 있지만 A에는없는 내용의 경우 좌측은 NULL로 처리 
   - FULL :  A와 B 의 합집합
 
-![JOIM](C:\Users\프리다임\Desktop\JOIM.PNG)
+![JOIM](../img/JOIM.PNG)
+
